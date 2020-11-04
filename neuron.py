@@ -17,7 +17,7 @@ class Neuron():
     def __init__(self, weights, activationFunction):
         self.weights = weights
         self.nextWeights = 'undefined'
-        self.theta = np.random.uniform()
+        self.theta = np.random.uniform(0.5, 1)
         self.setFunction(activationFunction)
 
     def setFunction(self, activationFunction):
@@ -30,8 +30,21 @@ class Neuron():
         else:
             print('Function not yet supported')
 
-    def train(self):
-        self.nextWeights = self.theta * ()
+    def train(self, X, expected):
+        state = np.dot(np.transpose(self.weights), X)
+        print('state', state)
+
+        print('output', self.activationFunction(state))
+
+        self.nextWeights = []
+
+        for x in X:
+            errorDiff = expected - self.activationFunction(state)
+            self.nextWeights.append(self.theta *
+                                    (errorDiff) * self.activationDerivative(state) * x)
+
+        print('    weights', self.weights)
+        print('nextweights', self.nextWeights)
 
     def updateWeights(self):
         # pylint: disable=access-member-before-definition
