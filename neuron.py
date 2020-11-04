@@ -27,6 +27,21 @@ class Neuron():
         elif activationFunction == ActivationFunctionTypes.LogisticFunction:
             self.activationFunction = fd.logisticFunction
             self.activationDerivative = fd.logisticFunctionDerivative
+        elif activationFunction == ActivationFunctionTypes.Sin:
+            self.activationFunction = fd.sinh
+            self.activationDerivative = fd.sinhDerivative
+        elif activationFunction == ActivationFunctionTypes.Tanh:
+            self.activationFunction = fd.tanh
+            self.activationDerivative = fd.tanhDerivative
+        elif activationFunction == ActivationFunctionTypes.Sign:
+            self.activationFunction = fd.sign
+            self.activationDerivative = fd.signDerivative
+        elif activationFunction == ActivationFunctionTypes.ReLu:
+            self.activationFunction = fd.reLu
+            self.activationDerivative = fd.reLuDerivative
+        elif activationFunction == ActivationFunctionTypes.LeakyReLu:
+            self.activationFunction = fd.leakyReLu
+            self.activationDerivative = fd.leakyReLuDerivative
         else:
             print('Function not yet supported')
 
