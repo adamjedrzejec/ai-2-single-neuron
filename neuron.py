@@ -37,5 +37,5 @@ class Neuron():
         # pylint: disable=access-member-before-definition
         if self.nextWeights != 'undefined':
             # pylint: disable=access-member-before-definition
-            self.weights = self.nextWeights
+            self.weights = np.add(self.weights, self.nextWeights)
             self.nextWeights = 'undefined'
