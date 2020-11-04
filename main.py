@@ -1,3 +1,5 @@
 import neuron
+from neuron import ActivationFunctionTypes as aft
 
-print(neuron.ActivationFunctionTypes.ReLu)
+ner = neuron.Neuron(1, aft.HeaviSideStepFunction)
+ner.updateWeights()
