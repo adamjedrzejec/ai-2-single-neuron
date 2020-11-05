@@ -4,7 +4,7 @@ import functionsDerivatives as fd
 
 
 class ActivationFunctionTypes(Enum):
-    HeaviSideStepFunction = 'Heavi Side Function'
+    HeaviSideStepFunction = 1
     LogisticFunction = 2
     Sin = 3
     Tanh = 4
