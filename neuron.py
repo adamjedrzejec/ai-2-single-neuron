@@ -56,12 +56,8 @@ class Neuron():
 
         print('y =', self.activationFunction(state))
 
-        self.deltaWeights = []
-
-        for x in X:
-            errorDiff = expected - self.activationFunction(state)
-            self.deltaWeights.append(self.theta *
-                                     (errorDiff) * self.activationDerivative(state) * x)
+        self.deltaWeights = np.dot(
+            self.theta * (expected - self.activationFunction(state)) * self.activationDerivative(state), X)
 
         print('     weights', self.weights)
         print('deltaWeights', self.deltaWeights)
