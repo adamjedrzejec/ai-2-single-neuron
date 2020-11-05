@@ -6,21 +6,18 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 import plotly.express as px
 
+import styles
 import neuron
 from neuron import ActivationFunctionTypes as aft
 import classifier as c
 
-
-print('linspace test')
-print(np.linspace(0, 2*np.pi, 10))
 
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
     html.H1('Hello Dash!'),
 
-    html.Button('Button 2', id='btn', n_clicks=0),
-
+    html.Button('Button 2', id='btn', n_clicks=0, style=styles.button),
 
     dcc.Graph(id='activation-function')
 ])
