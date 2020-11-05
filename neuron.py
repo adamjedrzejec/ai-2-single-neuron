@@ -54,13 +54,15 @@ class Neuron():
     def train(self, X, expected):
         state = np.dot(np.transpose(self.weights), X)
 
-        print('y =', self.activationFunction(state))
-
         self.deltaWeights = np.dot(
             self.theta * (expected - self.activationFunction(state)) * self.activationDerivative(state), X)
 
-        print('     weights', self.weights)
-        print('deltaWeights', self.deltaWeights)
+        if self.deltaWeights[0] and self.deltaWeights[1]:
+            print('deltaWeights', self.deltaWeights)
+
+    def examine(self, X, expected):
+        state = np.dot(np.transpose(self.weights), X)
+        return self.activationFunction(state) == expected
 
     def updateWeights(self):
         if self.deltaWeights != 'undefined':
