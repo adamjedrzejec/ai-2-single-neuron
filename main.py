@@ -17,15 +17,25 @@ app = dash.Dash(__name__)
 app.layout = html.Div([
     html.H1('Hello Dash!'),
 
-    html.Button('Button 2', id='btn', n_clicks=0, style=styles.button),
 
-    dcc.Graph(id='activation-function')
+    html.Div(style={'display': 'flex'}, children=[
+        dcc.Graph(id='activation-function',
+                  style={'width': '800px', 'height': '800px'}),
+
+        html.Div(children=[
+            html.Button('Generate', id='btn-generate', n_clicks=0, style={
+                **styles.button}),
+            html.Button('Reset', id='btn-reset', n_clicks=0, style={
+                **styles.button})
+        ])
+
+    ])
 ])
 
 
-@app.callback(Output('activation-function', 'figure'), Input('btn', 'n_clicks'))
-def buttonClicked(button):
-    fig = px.line(x=([-.5, -.25, 0, .25, .5]), y=(np.dot([-.5, -.25, 0, .25, .5], button)),
+@app.callback(Output('activation-function', 'figure'), Input('btn-generate', 'n_clicks'))
+def buttonClicked(n_clicks):
+    fig = px.line(x=([-.5, -.25, 0, .25, .5]), y=(np.dot([-.5, -.25, 0, .25, .5], n_clicks)),
                   labels={'x': 'xd', 'y': 'dxx'})
 
     x = np.arange(0, 1.01, .01)
@@ -46,11 +56,26 @@ def buttonClicked(button):
 
     n.examine([1, 6])
 
-    fig = go.Figure(data=go.Contour(
+    scatter = go.Scattergl(
+        x=[.25, .25],
+        y=[.4, .6],
+        mode='markers',
+        name='Sampled Data',
+    )
+
+    contour = None
+
+    if n_clicks > 0:
+        contour = go.Contour(
         z=zz,
         x=xx,
         y=yy
-    ))
+        )
+
+    fig = go.Figure(data=[scatter])
+
+    if contour != None:
+        fig = go.Figure(data=[contour, scatter])
 
     print('jebadło')
 
@@ -58,6 +83,11 @@ def buttonClicked(button):
     fig.update_yaxes(range=[-.1, 1.1])
 
     return fig
+
+
+@app.callback(Output('btn-generate', 'n_clicks'), Input('btn-reset', 'n_clicks'))
+def resetGenerate(n_click):
+    return 0
 
 
 app.run_server(debug=True)
