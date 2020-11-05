@@ -17,39 +17,44 @@ class Neuron():
     def __init__(self, weights, activationFunction):
         self.weights = weights
         self.nextWeights = 'undefined'
-        self.theta = np.random.uniform(0.5, 1)
         self.setFunction(activationFunction)
 
     def setFunction(self, activationFunction):
         if activationFunction == ActivationFunctionTypes.HeaviSideStepFunction:
             self.activationFunction = fd.heaviSideStepFunction
             self.activationDerivative = fd.heaviSideStepFunctionDerivative
+            self.theta = np.random.uniform(.05, .1)
         elif activationFunction == ActivationFunctionTypes.LogisticFunction:
             self.activationFunction = fd.logisticFunction
             self.activationDerivative = fd.logisticFunctionDerivative
+            self.theta = np.random.uniform(2, 4)
         elif activationFunction == ActivationFunctionTypes.Sin:
             self.activationFunction = fd.sinh
             self.activationDerivative = fd.sinhDerivative
+            self.theta = np.random.uniform(.005, .01)
         elif activationFunction == ActivationFunctionTypes.Tanh:
             self.activationFunction = fd.tanh
             self.activationDerivative = fd.tanhDerivative
+            self.theta = np.random.uniform(.5, 1)
         elif activationFunction == ActivationFunctionTypes.Sign:
             self.activationFunction = fd.sign
             self.activationDerivative = fd.signDerivative
+            self.theta = np.random.uniform(.03, .06)
         elif activationFunction == ActivationFunctionTypes.ReLu:
             self.activationFunction = fd.reLu
             self.activationDerivative = fd.reLuDerivative
+            self.theta = np.random.uniform(.5, 1)
         elif activationFunction == ActivationFunctionTypes.LeakyReLu:
             self.activationFunction = fd.leakyReLu
             self.activationDerivative = fd.leakyReLuDerivative
+            self.theta = np.random.uniform(.5, 1)
         else:
             print('Function not yet supported')
 
     def train(self, X, expected):
         state = np.dot(np.transpose(self.weights), X)
-        print('state', state)
 
-        print('output', self.activationFunction(state))
+        print('y =', self.activationFunction(state))
 
         self.nextWeights = []
 
