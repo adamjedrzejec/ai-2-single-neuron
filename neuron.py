@@ -16,7 +16,7 @@ class ActivationFunctionTypes(Enum):
 class Neuron():
     def __init__(self, weights, activationFunction):
         self.weights = weights
-        self.nextWeights = 'undefined'
+        self.deltaWeights = 'undefined'
         self.setFunction(activationFunction)
 
     def setFunction(self, activationFunction):
@@ -56,19 +56,19 @@ class Neuron():
 
         print('y =', self.activationFunction(state))
 
-        self.nextWeights = []
+        self.deltaWeights = []
 
         for x in X:
             errorDiff = expected - self.activationFunction(state)
-            self.nextWeights.append(self.theta *
-                                    (errorDiff) * self.activationDerivative(state) * x)
+            self.deltaWeights.append(self.theta *
+                                     (errorDiff) * self.activationDerivative(state) * x)
 
-        print('    weights', self.weights)
-        print('nextweights', self.nextWeights)
+        print('     weights', self.weights)
+        print('deltaWeights', self.deltaWeights)
 
     def updateWeights(self):
         # pylint: disable=access-member-before-definition
-        if self.nextWeights != 'undefined':
+        if self.deltaWeights != 'undefined':
             # pylint: disable=access-member-before-definition
-            self.weights = np.add(self.weights, self.nextWeights)
-            self.nextWeights = 'undefined'
+            self.weights = np.add(self.weights, self.deltaWeights)
+            self.deltaWeights = 'undefined'
