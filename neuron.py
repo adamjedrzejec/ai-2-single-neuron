@@ -60,11 +60,12 @@ class Neuron():
         if self.deltaWeights[0] and self.deltaWeights[1]:
             print('deltaWeights', self.deltaWeights)
 
-    def examine(self, X, expected):
+    def examine(self, X):
         state = np.dot(np.transpose(self.weights), X)
-        return self.activationFunction(state) == expected
+        return self.activationFunction(state)
 
     def updateWeights(self):
         if self.deltaWeights != 'undefined':
             self.weights = np.add(self.weights, self.deltaWeights)
             self.deltaWeights = 'undefined'
+        return self.weights
