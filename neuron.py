@@ -67,8 +67,6 @@ class Neuron():
         print('deltaWeights', self.deltaWeights)
 
     def updateWeights(self):
-        # pylint: disable=access-member-before-definition
         if self.deltaWeights != 'undefined':
-            # pylint: disable=access-member-before-definition
             self.weights = np.add(self.weights, self.deltaWeights)
             self.deltaWeights = 'undefined'
