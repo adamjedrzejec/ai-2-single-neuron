@@ -83,12 +83,28 @@ class dashServer:
 
             if n_clicks_training == 0 and n_clicks_new_samples != 0:
                 print('display scatter')
+                scatter_x = np.concatenate(
+                    (self.state.get('samples1')[0], self.state.get('samples2')[0]))
+                scatter_y = np.concatenate(
+                    (self.state.get('samples1')[1], self.state.get('samples2')[1]))
+
+                scatter = go.Scatter(
+                    x=scatter_x,
+                    y=scatter_y,
+                    mode='markers',
+                    marker=dict(
+                        color=[np.concatenate((np.full(20, 0, dtype=int), np.full(20, 1, dtype=int)))])
+                )
+
+                fig = go.Figure(data=scatter)
+                fig.update_xaxes(range=[-.1, 1.1])
+                fig.update_yaxes(range=[-.1, 1.1])
+
+                return fig
+
             elif n_clicks_training != 0:
                 print('display all')
-            else:
-                print('display nothing')
-
-            neu = neuron.Neuron([1, 0.5], aft.HeaviSideStepFunction)
+                neu = neuron.Neuron([-1, 1], aft.LogisticFunction)
 
             li1 = list(zip(self.state.get('samples1')[
                        0], self.state.get('samples1')[1]))
@@ -106,6 +122,9 @@ class dashServer:
                     neu.train(trainingTouple, 1)
                     neu.updateWeights()
 
+                print('1weights:', neu.weights)
+                print('1trainings:', self.state.get('trainings'))
+
             x = np.arange(0, 1.01, .01)
             y = x.copy()
 
@@ -117,11 +136,6 @@ class dashServer:
                     _z.append(neu.examine([_x, _y]))
                 z.append(_z)
 
-            fig = {}
-
-            contour = None
-
-            if n_clicks_training > 0:
                 contour = go.Contour(
                     z=z,
                     x=x,
@@ -140,19 +154,14 @@ class dashServer:
                         color=[np.concatenate((np.full(20, 0, dtype=int), np.full(20, 1, dtype=int)))])
                 )
 
-                # x = np.add(self.state.get('samples1')[
-                #     0], self.state.get('samples2')[0]),
-                # y = np.add(self.state.get('samples1')[
-                #     1], self.state.get('samples2')[1]),
-                # print('x', np.add(self.state.get('samples1')
-                #                   [0], self.state.get('samples2')[0]))
-                # print('y', y)
-
                 fig = go.Figure(data=[scatter, contour])
                 fig.update_xaxes(range=[-.1, 1.1])
                 fig.update_yaxes(range=[-.1, 1.1])
 
             return fig
+            else:
+                print('display nothing')
+                return {}
 
 
 dashServer()
