@@ -4,7 +4,7 @@ import numpy as np
 class Classifier:
     def __init__(self, modesPerClassifier, samplesPerMode):
         self.modes = []
-        self.variance = np.random.uniform(0.01, 0.1)
+        self.variance = np.random.uniform(0.1, 0.2)
 
         self.modesPerClassifier = modesPerClassifier
         self.samplesPerMode = samplesPerMode
