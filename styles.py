@@ -1,10 +1,9 @@
 button = {
-    'backgroundColor': '#4CAF50',
     'border': 'none',
-    'color': ' white',
+    'color': ' black',
     'padding': '15px 32px',
     'textAlign': 'center',
     'textDecoration': 'none',
     'display': 'inline-block',
-    'fontSize': '16px'
+    'fontSize': '16px',
 }
