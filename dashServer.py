@@ -109,15 +109,16 @@ class dashServer:
             li1 = list(zip(self.state.get('samples1')[
                        0], self.state.get('samples1')[1]))
 
-            for i in range(self.state.get('trainings')):
+                li2 = list(zip(self.state.get('samples2')[
+                    0], self.state.get('samples2')[1]))
+
+                EPOCHS = self.state.get('trainings')
+
+                for e in range(EPOCHS):
                 for index, trainingTouple in enumerate(li1):
                     neu.train(trainingTouple, 0)
                     neu.updateWeights()
 
-            li2 = list(zip(self.state.get('samples2')[
-                       0], self.state.get('samples2')[1]))
-
-            for i in range(self.state.get('trainings')):
                 for index, trainingTouple in enumerate(li2):
                     neu.train(trainingTouple, 1)
                     neu.updateWeights()
