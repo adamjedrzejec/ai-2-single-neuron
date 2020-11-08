@@ -155,7 +155,9 @@ class dashServer:
                         color=[np.concatenate((np.full(20, 0, dtype=int), np.full(20, 1, dtype=int)))])
                 )
 
-                fig = go.Figure(data=[scatter, contour])
+                print('final weights:', neu.weights)
+
+                fig = go.Figure(data=[contour, scatter])
                 fig.update_xaxes(range=[-.1, 1.1])
                 fig.update_yaxes(range=[-.1, 1.1])
 
