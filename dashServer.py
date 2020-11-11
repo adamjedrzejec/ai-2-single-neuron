@@ -83,20 +83,22 @@ class dashServer:
 
             if n_clicks_training == 0 and n_clicks_new_samples != 0:
                 print('display scatter')
-                scatter_x = np.concatenate(
-                    (self.state.get('samples1')[0], self.state.get('samples2')[0]))
-                scatter_y = np.concatenate(
-                    (self.state.get('samples1')[1], self.state.get('samples2')[1]))
 
-                scatter = go.Scatter(
-                    x=scatter_x,
-                    y=scatter_y,
-                    mode='markers',
-                    marker=dict(
-                        color=[np.concatenate((np.full(20, 0, dtype=int), np.full(20, 1, dtype=int)))])
+                scatter1 = go.Scatter(
+                    x=self.state.get('samples1')[0],
+                    y=self.state.get('samples1')[1],
+                    name=0,
+                    mode='markers'
                 )
 
-                fig = go.Figure(data=scatter)
+                scatter2 = go.Scatter(
+                    x=self.state.get('samples2')[0],
+                    y=self.state.get('samples2')[1],
+                    name=1,
+                    mode='markers'
+                )
+
+                fig = go.Figure(data=[scatter1, scatter2])
                 fig.update_xaxes(range=[-.1, 1.1])
                 fig.update_yaxes(range=[-.1, 1.1])
 
@@ -104,10 +106,10 @@ class dashServer:
 
             elif n_clicks_training != 0:
                 print('display all')
-                neu = neuron.Neuron([-1, 1], aft.LogisticFunction)
+                neu = neuron.Neuron([0, 1], aft.HeaviSideStepFunction)
 
-            li1 = list(zip(self.state.get('samples1')[
-                       0], self.state.get('samples1')[1]))
+                li1 = list(zip(self.state.get('samples1')[
+                    0], self.state.get('samples1')[1]))
 
                 li2 = list(zip(self.state.get('samples2')[
                     0], self.state.get('samples2')[1]))
@@ -115,27 +117,27 @@ class dashServer:
                 EPOCHS = self.state.get('trainings')
 
                 for e in range(EPOCHS):
-                for index, trainingTouple in enumerate(li1):
-                    neu.train(trainingTouple, 0)
-                    neu.updateWeights()
+                    for index, trainingTouple in enumerate(li1):
+                        neu.train(trainingTouple, 0)
+                        neu.updateWeights()
 
-                for index, trainingTouple in enumerate(li2):
-                    neu.train(trainingTouple, 1)
-                    neu.updateWeights()
+                    for index, trainingTouple in enumerate(li2):
+                        neu.train(trainingTouple, 1)
+                        neu.updateWeights()
 
                 print('1weights:', neu.weights)
                 print('1trainings:', self.state.get('trainings'))
 
-            x = np.arange(0, 1.01, .01)
-            y = x.copy()
+                x = np.arange(0, 1.01, .01)
+                y = x.copy()
 
-            z = []
+                z = []
 
-            for _y in y:
-                _z = []
-                for _x in x:
-                    _z.append(neu.examine([_x, _y]))
-                z.append(_z)
+                for _y in y:
+                    _z = []
+                    for _x in x:
+                        _z.append(neu.examine([_x, _y]))
+                    z.append(_z)
 
                 contour = go.Contour(
                     z=z,
@@ -143,25 +145,27 @@ class dashServer:
                     y=y
                 )
 
-                scatter_x = np.concatenate(
-                    (self.state.get('samples1')[0], self.state.get('samples2')[0]))
-                scatter_y = np.concatenate(
-                    (self.state.get('samples1')[1], self.state.get('samples2')[1]))
-                scatter = go.Scatter(
-                    x=scatter_x,
-                    y=scatter_y,
-                    mode='markers',
-                    marker=dict(
-                        color=[np.concatenate((np.full(20, 0, dtype=int), np.full(20, 1, dtype=int)))])
+                scatter1 = go.Scatter(
+                    x=self.state.get('samples1')[0],
+                    y=self.state.get('samples1')[1],
+                    name=0,
+                    mode='markers'
+                )
+
+                scatter2 = go.Scatter(
+                    x=self.state.get('samples2')[0],
+                    y=self.state.get('samples2')[1],
+                    name=1,
+                    mode='markers'
                 )
 
                 print('final weights:', neu.weights)
 
-                fig = go.Figure(data=[contour, scatter])
+                fig = go.Figure(data=[contour, scatter1, scatter2])
                 fig.update_xaxes(range=[-.1, 1.1])
                 fig.update_yaxes(range=[-.1, 1.1])
 
-            return fig
+                return fig
             else:
                 print('display nothing')
                 return {}
