@@ -52,16 +52,13 @@ class Neuron():
             print('Function not yet supported')
 
     def train(self, X, expected):
-        state = np.dot(np.transpose(self.weights), X)
+        state = np.dot(np.transpose(self.weights), X) - 2
 
-        self.deltaWeights = np.dot(
-            self.theta * (expected - self.activationFunction(state)) * self.activationDerivative(state), X)
-
-        # if self.deltaWeights[0] and self.deltaWeights[1]:
-        #     print('deltaWeights', self.deltaWeights)
+        self.deltaWeights = np.dot(np.transpose(X),
+                                   self.theta * (expected - self.activationFunction(state)) * self.activationDerivative(state))
 
     def examine(self, X):
-        state = np.dot(np.transpose(self.weights), X)
+        state = np.dot(np.transpose(self.weights), X) - 2
         return self.activationFunction(state)
 
     def updateWeights(self):
