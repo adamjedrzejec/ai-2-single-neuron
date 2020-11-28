@@ -23,11 +23,11 @@ class Neuron():
         if activationFunction == ActivationFunctionTypes.HeaviSideStepFunction:
             self.activationFunction = fd.heaviSideStepFunction
             self.activationDerivative = fd.heaviSideStepFunctionDerivative
-            self.theta = np.random.uniform(.05, .1)
+            self.theta = 0.01  # np.random.uniform(.05, .1)
         elif activationFunction == ActivationFunctionTypes.LogisticFunction:
             self.activationFunction = fd.logisticFunction
             self.activationDerivative = fd.logisticFunctionDerivative
-            self.theta = np.random.uniform(2, 4)
+            self.theta = 1  # np.random.uniform(2, 4)
         elif activationFunction == ActivationFunctionTypes.Sin:
             self.activationFunction = fd.sinh
             self.activationDerivative = fd.sinhDerivative
@@ -52,13 +52,19 @@ class Neuron():
             print('Function not yet supported')
 
     def train(self, X, expected):
-        state = np.dot(np.transpose(self.weights), X) - 2
+        bias = self.weights[0]
 
-        self.deltaWeights = np.dot(np.transpose(X),
+        state = np.dot(np.transpose(self.weights), [
+                       bias, *X]) + bias
+
+        self.deltaWeights = np.dot(np.transpose([self.weights[0], *X]),
                                    self.theta * (expected - self.activationFunction(state)) * self.activationDerivative(state))
 
     def examine(self, X):
-        state = np.dot(np.transpose(self.weights), X) - 2
+        bias = self.weights[0]
+
+        state = np.dot(np.transpose(self.weights), [
+                       bias, *X]) + bias
         return self.activationFunction(state)
 
     def updateWeights(self):

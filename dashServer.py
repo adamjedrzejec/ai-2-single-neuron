@@ -106,7 +106,7 @@ class dashServer:
 
             elif n_clicks_training != 0:
                 print('display all')
-                neu = neuron.Neuron([0, 1], aft.HeaviSideStepFunction)
+                neu = neuron.Neuron([.1, -.5, 0.5], aft.LogisticFunction)
 
                 li1 = list(zip(self.state.get('samples1')[
                     0], self.state.get('samples1')[1]))
